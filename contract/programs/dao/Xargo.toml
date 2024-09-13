@@ -1,0 +1,2 @@
+[target.bpfel-unknown.dependencies.std]
+features = []

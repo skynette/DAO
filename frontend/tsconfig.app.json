@@ -20,5 +20,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "src/components/Cmapaigns.jsx"]
+  "include": ["src", "src/components/Campaigns.jsx"]
 }

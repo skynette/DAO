@@ -37,7 +37,7 @@ export const CanvasWalletProvider = ({ children }) => {
     }, []);
 
     const connectWallet = async () => {
-        if (canvasClient) {
+        if (!canvasClient) {
             try {
                 const info = await canvasClient.ready();
                 if (info?.untrusted) {

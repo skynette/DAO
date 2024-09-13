@@ -9,7 +9,7 @@ import {
 import { AnchorProvider, BN, Program } from "@coral-xyz/anchor";
 import { toast } from "react-toastify";
 import { Buffer } from "buffer";
-import Modal from "react-modal";
+import Modal from "react-modal"; 
 import useCanvasWallet from "./CanvasWalletProvider";
 import { encode } from "bs58";
 
@@ -319,10 +319,20 @@ const Main1 = ({ walletAddress }) => {
   };
 
   const renderCampaigns = (isOwnCampaigns) => (
-    <div className="flex flex-col items-center">
+    <div
+      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+    >
       {isOwnCampaigns && (
-        <div className="w-full max-w-3xl text-center mb-4 text-white">
-          <p className="text-gray-400">
+        <div
+          style={{
+            width: "100%",
+            maxWidth: "800px",
+            textAlign: "center",
+            marginBottom: "16px",
+            color: "#fff",
+          }}
+        >
+          <p style={{ color: "#ccc" }}>
             Note: You can only create a campaign once per account.
           </p>
         </div>
@@ -336,7 +346,8 @@ const Main1 = ({ walletAddress }) => {
           <span className="ml-2 text-lg">Loading...</span>
         </div>
       )}
-      {campaigns && campaigns.length > 0 ? (
+      {campaigns &&
+        campaigns.length > 0 ?
         campaigns
           .filter((campaign) => {
             return isOwnCampaigns
@@ -346,28 +357,70 @@ const Main1 = ({ walletAddress }) => {
           .map((campaign) => (
             <div
               key={campaign.pubkey.toString()}
-              className="w-full max-w-3xl border border-gray-600 rounded-lg p-4 my-4 shadow-md bg-gray-800 relative overflow-hidden"
+              style={{
+                width: "100%",
+                maxWidth: "800px",
+                border: "1px solid grey",
+                borderRadius: "8px",
+                padding: "16px",
+                margin: "16px 0",
+                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                backgroundColor: "#1C212E",
+                position: "relative",
+                overflow: "hidden",
+              }}
             >
-              <div className="flex flex-col mb-12 text-left">
-                <h3 className="m-0 mb-2 text-cyan-400">{campaign.name}</h3>
-                <p className="my-1 text-gray-300">
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  marginBottom: "48px",
+                  textAlign: "left",
+                }}
+              >
+                <h3
+                  style={{
+                    margin: "0 0 8px",
+                    color: "#00BCD4",
+                  }}
+                >
+                  {campaign.name}
+                </h3>
+                <p style={{ margin: "4px 0", color: "#ccc" }}>
                   <strong>Description:</strong> {campaign.description}
                 </p>
-                <p className="my-1 text-gray-300">
+                <p style={{ margin: "4px 0", color: "#ccc" }}>
                   <strong>Balance:</strong>{" "}
                   {(campaign.amountDonated / 1e9).toFixed(2)} SOL
                 </p>
-                <p className="my-1 text-gray-300">
+                <p style={{ margin: "4px 0", color: "#ccc" }}>
                   <strong>Admin:</strong> {campaign.admin.toString()}
                 </p>
               </div>
-              <div className="absolute bottom-4 right-4 flex gap-2">
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: "16px",
+                  right: "16px",
+                  display: "flex",
+                  gap: "8px",
+                }}
+              >
                 <button
                   onClick={() => {
                     setDonateModalOpen(true);
                     setSelectedCampaign(campaign.pubkey);
                   }}
-                  className="px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600 transition-colors"
+                  style={{
+                    padding: "8px 16px",
+                    border: "none",
+                    borderRadius: "4px",
+                    backgroundColor: "#6366F1",
+                    color: "#fff",
+                    cursor: "pointer",
+                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                    transition: "background-color 0.3s ease",
+                  }}
                 >
                   Donate
                 </button>
@@ -384,7 +437,16 @@ const Main1 = ({ walletAddress }) => {
                       setWithdrawModalOpen(true);
                       setSelectedCampaign(campaign.pubkey);
                     }}
-                    className="px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600 transition-colors"
+                    style={{
+                      padding: "8px 16px",
+                      border: "none",
+                      borderRadius: "4px",
+                      backgroundColor: "#6366F1",
+                      color: "#fff",
+                      cursor: "pointer",
+                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                      transition: "background-color 0.3s ease",
+                    }}
                   >
                     Withdraw
                   </button>
@@ -392,28 +454,50 @@ const Main1 = ({ walletAddress }) => {
               </div>
             </div>
           ))
-      ) : (
-        <div className="w-full max-w-3xl text-center text-white">
-          <p>No campaigns created by others.</p>
+        :
+        <div
+          style={{
+            width: "100%",
+            maxWidth: "800px",
+            textAlign: "center",
+            color: "#fff",
+          }}>
+          <p>No new campaigns.</p>
         </div>
-      )}
+      }
     </div>
   );
 
   return (
-    <div className="p-4">
+    <div style={{ padding: "16px" }}>
       {walletAddress ? (
         <div>
-          <div className="flex justify-center mb-4 gap-4">
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginBottom: "16px",
+              gap: "16px",
+            }}
+          >
             <button
               onClick={() => {
                 setActiveTab("myCampaigns");
                 getCampaigns();
               }}
-              className={`px-6 py-3 w-1/2 border-2 ${activeTab === "myCampaigns"
-                  ? "border-cyan-400 bg-gray-800 text-cyan-400 font-bold"
-                  : "border-gray-800 bg-gray-700 text-white"
-                } cursor-pointer transition-all duration-300`}
+              style={{
+                padding: "12px 24px",
+                border: "2px solid",
+                width: "54%",
+                borderColor:
+                  activeTab === "myCampaigns" ? "#00BCD4" : "#1C212E",
+                backgroundColor:
+                  activeTab === "myCampaigns" ? "#1C212E" : "#2F3C57",
+                color: activeTab === "myCampaigns" ? "#00BCD4" : "#fff",
+                cursor: "pointer",
+                fontWeight: activeTab === "myCampaigns" ? "bold" : "normal",
+                transition: "all 0.3s ease",
+              }}
             >
               My Campaigns
             </button>
@@ -422,10 +506,19 @@ const Main1 = ({ walletAddress }) => {
                 setActiveTab("otherCampaigns");
                 getCampaigns();
               }}
-              className={`px-6 py-3 w-1/2 border-2 ${activeTab === "otherCampaigns"
-                  ? "border-cyan-400 bg-gray-800 text-cyan-400 font-bold"
-                  : "border-gray-800 bg-gray-700 text-white"
-                } cursor-pointer transition-all duration-300`}
+              style={{
+                padding: "12px 24px",
+                border: "2px solid",
+                width: "54%",
+                borderColor:
+                  activeTab === "otherCampaigns" ? "#00BCD4" : "#1C212E",
+                backgroundColor:
+                  activeTab === "otherCampaigns" ? "#1C212E" : "#2F3C57",
+                color: activeTab === "otherCampaigns" ? "#00BCD4" : "#fff",
+                cursor: "pointer",
+                fontWeight: activeTab === "otherCampaigns" ? "bold" : "normal",
+                transition: "all 0.3s ease",
+              }}
             >
               Other Campaigns
             </button>
@@ -434,7 +527,19 @@ const Main1 = ({ walletAddress }) => {
             <div>
               <button
                 onClick={() => setCreateModalOpen(true)}
-                className="px-6 py-3 w-full bg-indigo-500 text-white rounded hover:bg-indigo-600 transition-colors shadow-md mb-6 mt-3"
+                style={{
+                  padding: "12px 24px",
+                  border: "none",
+                  borderRadius: "4px",
+                  backgroundColor: "#6366F1",
+                  color: "#fff",
+                  width: "100%",
+                  cursor: "pointer",
+                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                  transition: "background-color 0.3s ease",
+                  marginBottom: "23px",
+                  marginTop: "10px",
+                }}
               >
                 Create Campaign +
               </button>
@@ -447,36 +552,54 @@ const Main1 = ({ walletAddress }) => {
         <></>
       )}
 
-      {/* Modals */}
+      {/* Create Campaign Modal */}
       <Modal
-        className="bg-gray-900 p-6 rounded-lg max-w-md mx-auto"
-        overlayClassName="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center"
+        style={customStyles}
         isOpen={isCreateModalOpen}
         onRequestClose={() => setCreateModalOpen(false)}
       >
-        <div className="flex flex-col items-center">
-          <h2 className="text-2xl font-bold text-white mb-4">Create Campaign</h2>
-          <form className="w-full">
-            <div className="mb-4">
-              <label className="block text-white mb-2" htmlFor="campaignName">
-                Campaign Name:
-              </label>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <h2>Create Campaign</h2>
+          <form
+            className="dark bg-gray-900 flex flex-col"
+            style={{ width: "100%" }}
+          >
+            <label
+              style={{
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "10px",
+                color: "#fff",
+              }}
+            >
+              <span>Campaign Name:</span>
               <input
-                id="campaignName"
                 type="text"
                 value={newCampaign.name}
                 onChange={(e) =>
                   setNewCampaign({ ...newCampaign, name: e.target.value })
                 }
-                className="w-full bg-gray-800 text-white rounded p-2"
               />
-            </div>
-            <div className="mb-4">
-              <label className="block text-white mb-2" htmlFor="campaignDescription">
-                Campaign Description:
-              </label>
+            </label>
+            <label
+              style={{
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "10px",
+                color: "#fff",
+              }}
+            >
+              <span>Campaign Description:</span>
               <textarea
-                id="campaignDescription"
                 value={newCampaign.description}
                 onChange={(e) =>
                   setNewCampaign({
@@ -484,13 +607,36 @@ const Main1 = ({ walletAddress }) => {
                     description: e.target.value,
                   })
                 }
-                className="w-full bg-gray-800 text-white rounded p-2 min-h-[60px]"
+                style={{
+                  backgroundColor: "#374151",
+                  color: "#fff",
+                  borderRadius: "4px",
+                  padding: "8px",
+                  border: "none",
+                  width: "91%",
+                  marginLeft: "10px",
+                  minHeight: "60px",
+                  fontFamily: "INHERIT",
+                  fontSize: "16px",
+                }}
               />
-            </div>
-            <div className="flex flex-col gap-2">
+            </label>
+            <div>
               <button
                 type="button"
-                className="px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600 transition-colors"
+                style={{
+                  padding: "12px 24px",
+                  border: "none",
+                  width: "100%",
+                  borderRadius: "4px",
+                  backgroundColor: "rgb(99, 102, 241)", // Button color (rgb(99, 102, 241))
+                  color: "#fff",
+                  cursor: "pointer",
+                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                  transition: "background-color 0.3s ease",
+                  marginBottom: "10px",
+                  marginTop: "10px",
+                }}
                 onClick={() => {
                   setCallFun("campaign");
                   setisConfirmModalOpen(true);
@@ -500,7 +646,19 @@ const Main1 = ({ walletAddress }) => {
               </button>
               <button
                 type="button"
-                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
+                style={{
+                  padding: "12px 24px",
+                  border: "none",
+                  borderRadius: "4px",
+                  backgroundColor: "#FF4C4C",
+                  color: "#fff",
+                  width: "100%",
+                  cursor: "pointer",
+                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                  transition: "background-color 0.3s ease",
+                  marginBottom: "10px",
+                  marginTop: "10px",
+                }}
                 onClick={() => setCreateModalOpen(false)}
               >
                 Cancel
@@ -512,31 +670,56 @@ const Main1 = ({ walletAddress }) => {
 
       {/* Donate Modal */}
       <Modal
-        className="bg-gray-900 p-6 rounded-lg max-w-md mx-auto"
-        overlayClassName="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center"
+        style={customStyles}
         isOpen={isDonateModalOpen}
         onRequestClose={() => setDonateModalOpen(false)}
       >
-        <div className="flex flex-col items-center">
-          <h2 className="text-2xl font-bold text-white mb-4">Donate to Campaign</h2>
-          <form className="w-full">
-            <div className="mb-4">
-              <label className="block text-white mb-2" htmlFor="donationAmount">
-                Donation Amount (Minimum 0.02 SOL):
-              </label>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignContent: "center",
+          }}
+        >
+          <h2>Donate to Campaign</h2>
+          <form
+            className="dark bg-gray-900 flex flex-col"
+            style={{ width: "100%" }}
+          >
+            <label
+              style={{
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "10px",
+                color: "#fff",
+              }}
+            >
+              <span>Donation Amount (Minimum 0.02 SOL):</span>
               <input
-                id="donationAmount"
                 type="number"
                 value={donationAmount}
                 onChange={(e) => setDonationAmount(Number(e.target.value))}
                 min="0"
-                className="w-full bg-gray-800 text-white rounded p-2"
               />
-            </div>
-            <div className="flex flex-col gap-2">
+            </label>
+            <div>
               <button
                 type="button"
-                className="px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600 transition-colors"
+                style={{
+                  padding: "12px 24px",
+                  border: "none",
+                  width: "100%",
+                  borderRadius: "4px",
+                  backgroundColor: "rgb(99, 102, 241)", // Button color (rgb(99, 102, 241))
+                  color: "#fff",
+                  cursor: "pointer",
+                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                  transition: "background-color 0.3s ease",
+                  marginBottom: "10px",
+                  marginTop: "10px",
+                }}
                 onClick={() => {
                   setCallFun("donate");
                   setisConfirmModalOpen(true);
@@ -546,7 +729,19 @@ const Main1 = ({ walletAddress }) => {
               </button>
               <button
                 type="button"
-                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
+                style={{
+                  padding: "12px 24px",
+                  border: "none",
+                  borderRadius: "4px",
+                  backgroundColor: "#FF4C4C",
+                  color: "#fff",
+                  width: "100%",
+                  cursor: "pointer",
+                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                  transition: "background-color 0.3s ease",
+                  marginBottom: "10px",
+                  marginTop: "10px",
+                }}
                 onClick={() => setDonateModalOpen(false)}
               >
                 Cancel
@@ -558,31 +753,56 @@ const Main1 = ({ walletAddress }) => {
 
       {/* Withdraw Modal */}
       <Modal
-        className="bg-gray-900 p-6 rounded-lg max-w-md mx-auto"
-        overlayClassName="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center"
+        style={customStyles}
         isOpen={isWithdrawModalOpen}
         onRequestClose={() => setWithdrawModalOpen(false)}
       >
-        <div className="flex flex-col items-center">
-          <h2 className="text-2xl font-bold text-white mb-4">Withdraw from Campaign</h2>
-          <form className="w-full">
-            <div className="mb-4">
-              <label className="block text-white mb-2" htmlFor="withdrawalAmount">
-                Withdrawal Amount (Minimum 0.02 SOL):
-              </label>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignContent: "center",
+          }}
+        >
+          <h2>Withdraw from Campaign</h2>
+          <form
+            className="dark bg-gray-900 flex flex-col"
+            style={{ width: "100%" }}
+          >
+            <label
+              style={{
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "10px",
+                color: "#fff",
+              }}
+            >
+              Withdrawal Amount (Minimum 0.02 SOL):
               <input
-                id="withdrawalAmount"
                 type="number"
                 value={withdrawAmount}
                 onChange={(e) => setWithdrawAmount(Number(e.target.value))}
                 min="0"
-                className="w-full bg-gray-800 text-white rounded p-2"
               />
-            </div>
-            <div className="flex flex-col gap-2">
+            </label>
+            <div>
               <button
                 type="button"
-                className="px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600 transition-colors"
+                style={{
+                  padding: "12px 24px",
+                  border: "none",
+                  width: "100%",
+                  borderRadius: "4px",
+                  backgroundColor: "rgb(99, 102, 241)", // Button color (rgb(99, 102, 241))
+                  color: "#fff",
+                  cursor: "pointer",
+                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                  transition: "background-color 0.3s ease",
+                  marginBottom: "10px",
+                  marginTop: "10px",
+                }}
                 onClick={() => {
                   setCallFun("withdraw");
                   setisConfirmModalOpen(true);
@@ -592,7 +812,19 @@ const Main1 = ({ walletAddress }) => {
               </button>
               <button
                 type="button"
-                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
+                style={{
+                  padding: "12px 24px",
+                  border: "none",
+                  borderRadius: "4px",
+                  backgroundColor: "#FF4C4C",
+                  color: "#fff",
+                  width: "100%",
+                  cursor: "pointer",
+                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                  transition: "background-color 0.3s ease",
+                  marginBottom: "10px",
+                  marginTop: "10px",
+                }}
                 onClick={() => setWithdrawModalOpen(false)}
               >
                 Cancel
@@ -602,29 +834,64 @@ const Main1 = ({ walletAddress }) => {
         </div>
       </Modal>
 
-      {/* Confirm Modal */}
       <Modal
-        className="bg-gray-900 p-6 rounded-lg max-w-md mx-auto"
-        overlayClassName="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center"
+        style={customStyles}
         isOpen={isConfirmModalOpen}
         onRequestClose={() => setisConfirmModalOpen(false)}
       >
-        <div className="flex flex-col items-center">
-          <p className="bg-gray-800 p-3 rounded text-orange-400 text-lg mb-4">
-            Before making this transaction make sure you have enough balance in
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignContent: "center",
+          }}
+        >
+          <p style={{
+            background: "#1a1e1e",
+            padding: "10px",
+            borderRadius: "5px",
+            color: "orange",
+            fontSize: "20px",
+          }}>
+            Before making this transection make sure you have enough balance in
             your wallet!!
           </p>
-          <div className="flex flex-col gap-2 w-full">
+          <div>
             <button
               type="button"
-              className="px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600 transition-colors"
+              style={{
+                padding: "12px 24px",
+                border: "none",
+                width: "100%",
+                borderRadius: "4px",
+                backgroundColor: "rgb(99, 102, 241)",
+                color: "#fff",
+                cursor: "pointer",
+                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                transition: "background-color 0.3s ease",
+                marginBottom: "10px",
+                marginTop: "10px",
+              }}
               onClick={handleConfirm}
             >
               Confirm
             </button>
             <button
               type="button"
-              className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
+              style={{
+                padding: "12px 24px",
+                border: "none",
+                width: "100%",
+                borderRadius: "4px",
+                backgroundColor: "#FF4C4C",
+                color: "#fff",
+                cursor: "pointer",
+                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                transition: "background-color 0.3s ease",
+                marginBottom: "10px",
+                marginTop: "10px",
+              }}
               onClick={() => setisConfirmModalOpen(false)}
             >
               Cancel

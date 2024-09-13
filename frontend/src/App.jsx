@@ -1,7 +1,7 @@
 import './App.css';
 import { CanvasWalletProvider } from './Provider/CanvasWalletProvider';
 import WalletComponent from './components/WalletComponent';
-import Campaigns from './components/Cmapaigns';
+import Campaigns from './components/Campaigns';
 import { ToastContainer, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

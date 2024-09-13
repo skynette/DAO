@@ -1,7 +1,7 @@
-import { FC } from "react";
+
 import useCanvasWallet from "../Provider/CanvasWalletProvider";
-import UserProfile from "./UserProfile"; // Ensure the correct path to UserProfile
-import Campaigns from "./Cmapaigns"; // Import Campaigns component
+import UserProfile from "./UserProfile"; 
+import Campaigns from "./Campaigns";
 
 const WalletComponent = () => {
   const { connectWallet, walletAddress, walletIcon, userInfo, content, signTransaction ,} =
@@ -12,6 +12,7 @@ const WalletComponent = () => {
     <div>
       {
         !walletAddress && (<>
+          <h1>Welcome to CanvasStrawPoll</h1>
           <button onClick={connectWallet} style={{backgroundColor:"#6366F1", marginTop: "-10px"}}>Connect Solana Wallet</button>
           </> )
       }

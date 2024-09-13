@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { GraphQLClient, gql } from 'graphql-request';
-import dscvr_logo from "/dscvr_logo.svg";
+import dscvr_logo from "/dscvr_logo.svg"
 
 // Initialize the GraphQL client with the DSCVR endpoint
 const client = new GraphQLClient('https://api.dscvr.one/graphql');
@@ -46,49 +46,135 @@ const UserProfile = ({ username, walletAddress, avatar }) => {
     return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
   };
 
-  if (loading) return (
-    <div className="flex justify-center items-center w-full h-full">
-      <div className="spinner-border animate-spin" role="status"></div>
-      <span className="ml-2 text-lg">Loading...</span>
-    </div>
-  );
+  if (loading) return (<div style={{
+    display: 'flex',
+    justifyContent: 'center',
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+  }}>
+  <div className='spinner-border' role='status'></div>
+  <span style={{
+    marginLeft: '0.5rem',
+    fontSize: '1.125rem',
+  }}>Loading...</span>
+</div>);
   if (error) return <div>{error}</div>;
 
   return userData ? (
-    <div className="flex flex-col sm:flex-row items-center sm:items-start border border-gray-600 rounded-lg p-4 max-w-lg sm:min-w-[70vw] mx-auto bg-[#1b1b2f] text-white shadow-lg mb-5">
-      <div className="flex items-center justify-center sm:mr-5 mb-4 sm:mb-0">
-        {avatar ? (
-          <img
-            src={avatar}
-            alt={`${username}'s avatar`}
-            className="rounded-full h-24 w-24 object-cover border-2 border-cyan-400"
-          />
-        ) : (
-          <div className="flex items-center justify-center w-24 h-24 bg-gray-900 text-white rounded-full border-2 border-cyan-400 text-3xl">
-            {getInitials(username)}
-          </div>
-        )}
+    <div style={styles.card}>
+      <div style={styles.imageContainer}>
+      {avatar ? (<img
+          src={avatar}
+          alt={`${username}'s avatar`}
+          style={styles.image}
+        />)
+        :  
+        <div
+        style={{
+          padding: "30px",
+          display: 'flex',
+          width: "55px",
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: '#111827', // gray-900 color
+          color: '#FFFFFF', // white
+          borderRadius: '50%',
+          border: '2px solid #22D3EE', // cyan-300 color
+          fontSize: '35px', // 2xl text
+        }}
+      >
+        {getInitials(username)}
+      </div> 
+      }
       </div>
-      <div className="text-left">
-        <p className="text-lg font-bold mb-2">{username}</p>
-        <p className="text-sm mb-2">
-          <strong className="text-cyan-400">{userData.followerCount}</strong> Followers &nbsp;&nbsp;
-          <strong className="text-cyan-400">{userData.followingCount}</strong> Following
+      <div style={styles.details}>
+        <p style={styles.username}>{username}</p>
+        <p style={styles.detailItem}>
+          <strong style={styles.followers}>{userData.followerCount}</strong> Followers &nbsp;&nbsp;
+          <strong style={styles.following}>{userData.followingCount}</strong> Following
         </p>
-        <p className="flex items-center text-sm mb-2">
-          <img src={dscvr_logo} alt="DSCVR Points Icon" className="w-8 mr-2" />
-          {userData.dscvrPoints / 1e6}
+        <p style={styles.detailItem}>
+          <img src={dscvr_logo} alt="DSCVR Points Icon" style={styles.icon} />
+          {userData.dscvrPoints/1e6}
         </p>
-        <p className="text-sm text-gray-300">
-          Wallet Address: <span className="cursor-pointer border-b border-dotted border-gray-300" title={walletAddress}>
-            {shortenWalletAddress(walletAddress)}
-          </span>
+        <p style={styles.walletAddress}>
+          Wallet Address: <span style={styles.shortenedWallet} title={walletAddress}>{shortenWalletAddress(walletAddress)}</span>
         </p>
       </div>
     </div>
   ) : (
     <div>No user data found</div>
   );
+};
+
+// Inline styles
+const styles = {
+  card: {
+    display: 'flex',
+    border: '1px solid #444',
+    borderRadius: '12px',
+    padding: '16px',
+    maxWidth: '450px', // Increased width by 50% from 300px to 450px
+    minWidth: '70vw',
+    margin: 'auto',
+    backgroundColor: '#1b1b2f',
+    color: '#fff',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+    justifyContent: 'space-evenly',
+    marginBottom: '20px',
+  },
+  imageContainer: {
+    marginRight: '20px',
+    display: 'flex',
+    alignItems: 'center',
+    // marginLeft: '10px', 
+  },
+  image: {
+   
+    height: '60%',
+    // width: "auto",
+    borderRadius: '50%',
+    aspectRatio: '1/1',
+    objectFit: 'cover',
+    border: '2px solid #00bcd4',
+  },
+  details: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    textAlign: 'left',
+  },
+  username: {
+    fontSize: '18px',
+    fontWeight: 'bold',
+    marginBottom: '8px',
+  },
+  detailItem: {
+    fontSize: '14px',
+    marginBottom: '4px',
+    display: "flex"
+  },
+  followers: {
+    color: '#00bcd4',
+    marginRight: '2px',
+  },
+  following: {
+    color: '#00bcd4',
+    marginRight: '2px',
+  },
+  icon: {
+    width: '30px',
+  },
+  walletAddress: {
+    fontSize: '14px',
+    marginTop: '8px',
+    color: '#ddd',
+  },
+  shortenedWallet: {
+    cursor: 'pointer',
+    borderBottom: '1px dotted #ddd',
+  },
 };
 
 export default UserProfile;
